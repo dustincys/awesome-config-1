@@ -63,7 +63,7 @@ beautiful.init(theme_path .. "/theme.lua")
 local terminal = "terminator"
 local editor   = os.getenv("EDITOR") or "gedit"
 local editor_cmd = terminal .. " -e " .. editor
-local fm = "nautilus"
+local fm = "xterm -e ranger"
 local modkey = "Mod4"
 
 -- Layouts setup
@@ -485,6 +485,6 @@ if not stamp or (os.time() - tonumber(stamp)) > 5 then
 	awful.util.spawn_with_shell("sleep 1 && pidgin")
 	awful.util.spawn_with_shell("sleep 1 && evolution")
 	awful.util.spawn_with_shell("sleep 1 && chromium-browser %U --force-device-scale-factor=1.5")
-	awful.util.spawn_with_shell("sleep 1 && terminator -e htop")
+	awful.util.spawn_with_shell("sleep 10 && terminator")
 end
 --]]

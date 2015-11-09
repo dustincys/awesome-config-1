@@ -115,7 +115,8 @@ function hotkeys:init(args)
     self.menu = args.menu or redflat.menu({ items = { {"Empty menu"} } })
     self.terminal = args.terminal or "x-terminal-emulator"
     self.browser = args.browser or "chromium-browser %U --force-device-scale-factor=1.5"
-    self.fm = args.fm or "nautilus"
+    self.fm = args.fm or "xterm -e ranger"
+    self.nau = args.nau or "nautilus"
     self.scrot = args.scrot or "scrot -e 'mv $f ~/Pictures/screenshots/ 2>/dev/null'| notify-send -t 500 'SS OK...'"
     self.lock = args.lock or "/bin/sh -c ~/.local/bin/lock"
     self.mod = args.mod or "Mod4"
@@ -136,6 +137,10 @@ function hotkeys:init(args)
         {
             args = { { self.mod, "Shift"   }, "Return", function () awful.util.spawn(self.fm) end },
             comment = "File manager"
+        },
+        {
+            args = { { self.mod, "Shift"   }, "h", function () awful.util.spawn(self.nau) end },
+            comment = "File manager2"
         },
         {
             args = { {                     }, "Print", function () awful.util.spawn(self.scrot) end },
@@ -213,7 +218,7 @@ function hotkeys:init(args)
             comment = "Allication launcher"
         },
         {
-            args = { { self.mod            }, "z", function() redflat.widget.minitray:toggle() end },
+            args = { { self.mod            }, "o", function() redflat.widget.minitray:toggle() end },
             comment = "Show minitray"
         },
         {

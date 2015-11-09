@@ -19,7 +19,7 @@ local function micon(name)
 end
 
 -- run commands
-local ranger_command  = "terminator -e ranger"
+local ranger_command  = "xterm -e ranger"
 local suspend_command = [[/bin/sh -c "~/.local/bin/lock && sleep 3 && /bin/systemctl suspend"]]
 local reboot_command = [[/bin/sh -c "/bin/systemctl reboot"]]
 local lock_command = [[/bin/sh -c "~/.local/bin/lock"]]
@@ -30,7 +30,7 @@ local poweroff_command = [[/bin/sh -c "/bin/systemctl poweroff"]]
 function menu.build(args)
 
 	local args = args or {}
-	local fm = args.fm or "nautilus"
+	local fm = args.fm or "ranger"
 	local separator = args.separator or { widget = redflat.gauge.separator.horizontal() }
 	local theme = args.theme or {}
 	local icon_style = args.icon_style or {}

@@ -59,17 +59,17 @@ function pulse:change_volume(args)
 	local diff = args.down and -args.step or args.step
 
 	-- get current volume
-	local v = awful.util.pread("pactl set-sink-volume")
-	--local volume = tonumber(string.sub(v, string.find(v, 'x') - 1))
+	local v = awful.util.pread("pacmd dump |grep set-sink-volume")
+	local volume = tonumber(string.sub(v, string.find(v, 'x') - 1))
 
 	-- calculate new volume
-	--local new_volume = volume + diff
+	local new_volume = volume + diff
 
-	--if new_volume > 65536 then
-	--	new_volume = 65536
-	--elseif new_volume < 0 then
-	--	new_volume = 0
-	--end
+	if new_volume > 65536 then
+		new_volume = 65536
+	elseif new_volume < 0 then
+		new_volume = 0
+	end
 
 	-- show notify if need
 	if args.show_notify then
@@ -78,7 +78,7 @@ function pulse:change_volume(args)
 	end
 
 	-- set new volume
-	--awful.util.spawn("pactl set-sink-volume 0 "..new_volume)
+	awful.util.spawn("pacmd set-sink-volume 0 "..new_volume)
 	-- update volume indicators
 	self:update_volume()
 end
@@ -86,11 +86,11 @@ end
 -- Set mute
 -----------------------------------------------------------------------------------------------------------------------
 function pulse:mute()
-	local mute = awful.util.pread("pactl set-sink-mute")
+	local mute = awful.util.pread("pacmd dump |grep set-sink-mute")
 	if string.find(mute, "no") then
-		awful.util.spawn("pactl set-sink-mute")
+		awful.util.spawn("pacmd set-sink-mute 0 yes")
 	else
-		awful.util.spawn("pactl set-sink-mute")
+		awful.util.spawn("pacmd set-sink-mute 0 no")
 	end
 	self:update_volume()
 end
@@ -105,8 +105,8 @@ function pulse:update_volume()
 	local mute
 
 	-- get current volume and mute state
-	local v = awful.util.pread("pactl set-sink-volume")
-	local m = awful.util.pread("pactl set-sink-mute")
+	local v = awful.util.pread("pacmd dump |grep set-sink-volume")
+	local m = awful.util.pread("pacmd dump |grep set-sink-mute")
 
 	if v then
 		local pv = string.find(v, 'x')

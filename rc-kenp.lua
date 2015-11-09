@@ -63,7 +63,7 @@ beautiful.init(theme_path .. "/theme.lua")
 local terminal = "terminator"
 local editor   = os.getenv("EDITOR") or "gedit"
 local editor_cmd = terminal .. " -e " .. editor
-local fm = "nautilus"
+local fm = "xterm -e ranger"
 local modkey = "Mod4"
 
 -- Layouts setup
@@ -190,7 +190,7 @@ volume.widget:buttons(awful.util.table.join(
 -- Mail
 --------------------------------------------------------------------------------
 local mail_scripts      = { "mail1.py", "mail2.py" }
-local mail_scripts_path = "~/.awesome/scripts/"
+local mail_scripts_path = "/home/kenan/.awesome/scripts/"
 
 local mail = {}
 mail.widget = redflat.widget.mail({ path = mail_scripts_path, scripts = mail_scripts })
@@ -455,33 +455,36 @@ local stamp = timestamp.get()
 
 if not stamp or (os.time() - tonumber(stamp)) > 5 then
 	-- utils
-	awful.util.spawn_with_shell("compton")
-	--wful.util.spawn_with_shell("compton -cfF -o 0.38 -O 200 -I 200 -t 0 -l 0 -r 3 -D2 -m 0.88 &")
-    --awful.util.spawn_with_shell("pulseaudio")
 	awful.util.spawn_with_shell("/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
+	awful.util.spawn_with_shell("compton")
 	awful.util.spawn_with_shell("nm-applet")
 	awful.util.spawn_with_shell("indicator-cpufreq")
 	awful.util.spawn_with_shell("psensor")
-	--awful.util.spawn_with_shell("bash ~/Documents/scripts/tmpfs_firefox.sh")
-	--awful.util.spawn_with_shell("xrdb -merge ~/.Xdefaults")
-
-	-- keyboard layouts
-	--awful.util.spawn_with_shell("setxkbmap -layout 'trf,us' -variant ',winkeys,winkeys' -option grp:caps_toggle")
-	awful.util.spawn_with_shell("setxkbmap -layout 'trf,us' -variant ',winkeys,winkeys' -option grp:rshift_toggle")
-	--awful.util.spawn_with_shell("xkbcomp $DISPLAY - | egrep -v 'group . = AltGr;' | xkbcomp - $DISPLAY")
-	--awful.util.spawn_with_shell("sleep 1 && bash ~/Documents/scripts/swapctrl.sh")
-
-	-- apps
 	awful.util.spawn_with_shell("pasystray")
 	awful.util.spawn_with_shell("parcellite")
 	awful.util.spawn_with_shell("radiotray")
+	awful.util.spawn_with_shell("unclutter -idle 3 -root")
+	awful.util.spawn_with_shell("xautolock -time 5 -locker ~/.local/bin/lock")
+    --awful.util.spawn_with_shell("pulseaudio")
+	--awful.util.spawn_with_shell("gnome-keyring-daemon--daemonize--login")
+	--awful.util.spawn_with_shell("gnome-session --session=ubuntu")
+	--awful.util.spawn_with_shell("xrdb -merge /home/kenan/.Xdefaults")
+
+	-- keyboard layouts
+	awful.util.spawn_with_shell("setxkbmap -layout 'trf,us' -variant ',winkeys,winkeys' -option grp:rshift_toggle")
+	--awful.util.spawn_with_shell("xkbcomp $DISPLAY - | egrep -v 'group . = AltGr;' | xkbcomp - $DISPLAY")
+	--awful.util.spawn_with_shell("sleep 1 && bash /home/kenan/Documents/scripts/swapctrl.sh")
+
+	-- apps
 	--awful.util.spawn_with_shell("exaile")
-	awful.util.spawn_with_shell("sleep 1 && pidgin")
-	awful.util.spawn_with_shell("sleep 1 && evolution")
-	awful.util.spawn_with_shell("sleep 1 && /opt/copy-client/CopyAgent")
 	--awful.util.spawn_with_shell("sleep 1 && /usr/bin/mail-notification")
 	--awful.util.spawn_with_shell("sleep 1 && alltray transmission-gtk")
+	awful.util.spawn_with_shell("sleep 1 && /opt/copy-client/CopyAgent")
 	awful.util.spawn_with_shell("sleep 1 && goldendict")
-    --awful.util.spawn_with_shell('~/.config/awesome/locker.sh')
+	awful.util.spawn_with_shell("sleep 1 && redshift-gtk")
+	awful.util.spawn_with_shell("sleep 1 && pidgin")
+	awful.util.spawn_with_shell("sleep 1 && evolution")
+	awful.util.spawn_with_shell("sleep 1 && chromium-browser %U --force-device-scale-factor=1.5")
+	awful.util.spawn_with_shell("sleep 10 && terminator")
 end
 --]]
