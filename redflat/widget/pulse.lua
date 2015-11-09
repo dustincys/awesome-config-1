@@ -30,6 +30,8 @@ local redutil = require("redflat.util")
 -- Initialize tables and vars for module
 -----------------------------------------------------------------------------------------------------------------------
 local pulse = { widgets = {}, mt = {} }
+local counter = 0
+local pulse_def_sink = awful.util.pread("pacmd dump|perl -ane 'print $F[1] if /set-default-sink/'")
 
 pulse.startup_time = 4
 
@@ -59,8 +61,8 @@ function pulse:change_volume(args)
 	local diff = args.down and -args.step or args.step
 
 	-- get current volume
-	local v = awful.util.pread("pacmd dump |grep set-sink-volume")
-	local volume = tonumber(string.sub(v, string.find(v, 'x') - 1))
+	local v = awful.util.pread("pacmd dump |grep set-sink-volume | grep " .. pulse_def_sink )
+	local volume = tonumber(string.match(v, "0x%x+"))
 
 	-- calculate new volume
 	local new_volume = volume + diff
@@ -78,7 +80,7 @@ function pulse:change_volume(args)
 	end
 
 	-- set new volume
-	awful.util.spawn("pacmd set-sink-volume 0 "..new_volume)
+	awful.util.spawn("pacmd set-sink-volume " .. pulse_def_sink .. " " .. new_volume)
 	-- update volume indicators
 	self:update_volume()
 end
@@ -86,11 +88,12 @@ end
 -- Set mute
 -----------------------------------------------------------------------------------------------------------------------
 function pulse:mute()
-	local mute = awful.util.pread("pacmd dump |grep set-sink-mute")
-	if string.find(mute, "no") then
-		awful.util.spawn("pacmd set-sink-mute 0 yes")
+	local mute = awful.util.pread("pacmd dump | grep set-sink-mute | grep " .. pulse_def_sink)
+
+	if string.find(mute, "no", -4) then
+		awful.util.spawn("pacmd set-sink-mute " .. pulse_def_sink .. " yes")
 	else
-		awful.util.spawn("pacmd set-sink-mute 0 no")
+		awful.util.spawn("pacmd set-sink-mute " .. pulse_def_sink .. " no")
 	end
 	self:update_volume()
 end
@@ -105,15 +108,15 @@ function pulse:update_volume()
 	local mute
 
 	-- get current volume and mute state
-	local v = awful.util.pread("pacmd dump |grep set-sink-volume")
-	local m = awful.util.pread("pacmd dump |grep set-sink-mute")
+	local v = awful.util.pread("pacmd dump | grep set-sink-volume | grep " .. pulse_def_sink)
+	local m = awful.util.pread("pacmd dump | grep set-sink-mute | grep " .. pulse_def_sink)
 
 	if v then
-		local pv = string.find(v, 'x')
-		--if pv then volume = math.floor(tonumber(string.sub(v, pv - 1)) * 100 / volmax) end
+		local pv = string.match(v, "0x%x+")
+		if pv then volume = math.floor(tonumber(pv) * 100 / volmax) end
 	end
 
-	if m ~= nil and string.find(m, "no") then
+	if m ~= nil and string.find(m, "no", -4) then
 		mute = false
 	else
 		mute = true
@@ -139,9 +142,9 @@ function pulse.new(args, style)
 	local style = redutil.table.merge(default_style(), style or {})
 	pulse.notify_icon = style.notify_icon
 
-	local counter = 0
 	local args = args or {}
-	local timeout = args.timeout or 30
+	local timeout = args.timeout or 5
+	local autoupdate = args.autoupdate or false
 
 	-- create widget
 	--------------------------------------------------------------------------------
@@ -156,31 +159,32 @@ function pulse.new(args, style)
 		pulse.tooltip:add_to_object(widg)
 	end
 
-	--[[
 	-- Set update timer
 	--------------------------------------------------------------------------------
-	local t = timer({ timeout = timeout })
-	t:connect_signal("timeout", function() pulse:update_volume() end)
-	t:start()
-	--]]
-
-	-- Set startup timer
-	-- This is workaround if widget created bofore pulseaudio servise start
-	--------------------------------------------------------------------------------
-	-- pulse.startup_updater = timer({ timeout = 1 })
-	-- pulse.startup_updater:connect_signal("timeout",
-	-- 	function()
-	-- 		counter = counter + 1
-	-- 		pulse:update_volume()
-	-- 		if counter > pulse.startup_time then pulse.startup_updater:stop() end
-	-- 	end
-	-- )
-	-- pulse.startup_updater:start()
+	if autoupdate then
+		local t = timer({ timeout = timeout })
+		t:connect_signal("timeout", function() pulse:update_volume() end)
+		t:start()
+	end
 
 	--------------------------------------------------------------------------------
 	pulse:update_volume()
 	return widg
 end
+
+-- Set startup timer
+-- This is workaround if module activated bofore pulseaudio servise start
+-----------------------------------------------------------------------------------------------------------------------
+pulse.startup_updater = timer({ timeout = 1 })
+pulse.startup_updater:connect_signal("timeout",
+	function()
+		counter = counter + 1
+		pulse_def_sink = awful.util.pread("pacmd dump|perl -ane 'print $F[1] if /set-default-sink/'")
+		pulse:update_volume()
+		if counter > pulse.startup_time then pulse.startup_updater:stop() end
+	end
+)
+pulse.startup_updater:start()
 
 -- Config metatable to call pulse module as function
 -----------------------------------------------------------------------------------------------------------------------
