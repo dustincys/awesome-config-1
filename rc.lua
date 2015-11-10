@@ -465,7 +465,7 @@ if not stamp or (os.time() - tonumber(stamp)) > 5 then
 	awful.util.spawn_with_shell("radiotray")
 	awful.util.spawn_with_shell("unclutter -idle 3 -root")
 	awful.util.spawn_with_shell("xautolock -time 5 -locker ~/.local/bin/lock")
-    --awful.util.spawn_with_shell("pulseaudio")
+	--awful.util.spawn_with_shell("pulseaudio")
 	--awful.util.spawn_with_shell("gnome-keyring-daemon--daemonize--login")
 	--awful.util.spawn_with_shell("gnome-session --session=ubuntu")
 	--awful.util.spawn_with_shell("xrdb -merge /home/kenan/.Xdefaults")

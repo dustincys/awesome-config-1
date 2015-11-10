@@ -117,7 +117,7 @@ function hotkeys:init(args)
     self.browser = args.browser or "chromium-browser %U --force-device-scale-factor=1.5"
     self.fm = args.fm or "xterm -e ranger"
     self.nau = args.nau or "nautilus"
-    self.scrot = args.scrot or "scrot -e 'mv $f ~/Pictures/screenshots/ 2>/dev/null'| notify-send -t 500 'SS OK...'"
+    self.scrot = args.scrot or "/bin/sh -c ~/.local/bin/screenshot"
     self.lock = args.lock or "/bin/sh -c ~/.local/bin/lock"
     self.mod = args.mod or "Mod4"
     self.need_helper = args.need_helper or true
