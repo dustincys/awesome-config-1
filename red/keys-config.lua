@@ -128,7 +128,7 @@ function hotkeys:init(args)
         { comment = "Global keys" },
         {
             args = { { self.mod,           }, "Return", function () awful.util.spawn(self.terminal) end },
-            comment = "Spawn terminal emulator"
+            comment = "Terminal emulator"
         },
         {
             args = { { self.mod,           }, "g", function () awful.util.spawn(self.browser) end },
@@ -136,15 +136,19 @@ function hotkeys:init(args)
         },
         {
             args = { { self.mod, "Shift"   }, "Return", function () awful.util.spawn(self.fm) end },
-            comment = "File manager"
+            comment = "Ranger"
         },
         {
             args = { { self.mod, "Shift"   }, "h", function () awful.util.spawn(self.nau) end },
-            comment = "File manager2"
+            comment = "Nautilus"
         },
         {
             args = { {                     }, "Print", function () awful.util.spawn(self.scrot) end },
             comment = "PrintScreen"
+        },
+        {
+            args = { { self.mod,           }, "h", function () hints.focus() end },
+            comment = "Hints"
         },
         {
             args = { { self.mod,           }, "f", function () awful.util.spawn(self.lock) end },

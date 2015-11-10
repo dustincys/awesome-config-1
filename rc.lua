@@ -12,8 +12,9 @@ local awful = require("awful")
 awful.rules = require("awful.rules")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
---local naughty = require("naughty")
-naughty = require("naughty")
+local hints = require("hints")
+local naughty = require("naughty")
+--naughty = require("naughty")
 
 require("awful.autofocus")
 
@@ -65,6 +66,9 @@ local editor   = os.getenv("EDITOR") or "gedit"
 local editor_cmd = terminal .. " -e " .. editor
 local fm = "xterm -e ranger"
 local modkey = "Mod4"
+
+-- https://github.com/kenanpelit/hints
+hints.init()
 
 -- Layouts setup
 -----------------------------------------------------------------------------------------------------------------------
