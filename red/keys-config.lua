@@ -115,6 +115,7 @@ function hotkeys:init(args)
     self.menu = args.menu or redflat.menu({ items = { {"Empty menu"} } })
     self.terminal = args.terminal or "x-terminal-emulator"
     self.ss = args.ss or "terminator --classname=SSH"
+    self.mpv = args.mpv or "mpv"
     self.xterm = args.xterm or "xterm"
     self.nau = args.nau or "nautilus"
     self.keepassx = args.keepassx or "keepassx"
@@ -161,6 +162,10 @@ function hotkeys:init(args)
         {
             args = { {              "Mod5" }, "n", function () awful.util.spawn(self.mpd) end },
             comment = "Ncmpcpp"
+        },
+        {
+            args = { {              "Mod5" }, "a", function () awful.util.spawn(self.mpv) end },
+            comment = "Mpv"
         },
         {
             args = { {              "Mod5" }, "m", function () awful.util.spawn(self.mail) end },
