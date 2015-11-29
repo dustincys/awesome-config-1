@@ -8,7 +8,7 @@ Monitors network interfaces and shows current traffic in a textbox.
 
 Variable | Meaning | Type | Default
 --- | --- | --- | ---
-`timeout` | Refresh timeout seconds | int | 2
+`timeout` | Refresh timeout seconds | int | 1
 `iface` | Network device | string | autodetected
 `units` | Units | int | 1024 (kilobytes) 
 `notify` | Display "no carrier" notifications | string | "on"
@@ -29,10 +29,14 @@ If `notify = "off"` is set, the widget won't display a notification when there's
 
 A textbox.
 
-### Notes
+### Setting `iface` manually
 
 If the widget [spawns a "no carrier" notification and you are sure to have an active network device](https://github.com/copycat-killer/lain/issues/102), then autodetection is probably not working. In this case you can set `iface` manually. You can see which device is **UP** with the following command:
 
 ```shell
 ip link show
 ```
+
+### Two widgets for upload/download rates from the same `iface`
+
+[Read here](https://github.com/copycat-killer/lain/issues/61).

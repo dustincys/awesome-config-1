@@ -1,4 +1,4 @@
-Currently, there are **8** layouts.
+Currently, there are **9** layouts.
 
     lain/layout
     .
@@ -7,6 +7,7 @@ Currently, there are **8** layouts.
     |-- cascade
     |-- cascadetile
     |-- centerwork
+    |-- centerhwork
     |-- uselessfair
     |-- uselesspiral
     `-- uselesstile
@@ -133,7 +134,7 @@ Usage example:
 	lain.layout.cascadetile.cascade_offset_y = 32
 	lain.layout.cascadetile.extra_padding = 5
     lain.layout.cascadetile.nmaster = 5
-    lain.layout.ncol = 1
+    lain.layout.cascadetile.ncol = 1
 
 `extra_padding` reduces the size of the master window if "overlapping
 slave column" is activated. This allows you to see if there are any
@@ -242,6 +243,14 @@ Here's an example:
 	        end),
 	    ...
 	)
+
+centerhwork
+-----------
+
+Same as `centerwork`, except that the main
+window expands horizontally, and the 4 additional windows
+are put ontop/below it, thus using the huge vertical space
+much better. Useful if you have a screen turned 90°.
 
 uselessfair, uselesspiral & uselesstile
 ---------------------------------------

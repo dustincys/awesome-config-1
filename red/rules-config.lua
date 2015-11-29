@@ -17,13 +17,9 @@ function rules:build(args)
     local tags = args.tags or {} -- bad !!!
 
     local user_rules = {
-       -- {
-       --     rule       = { class = "Pidgin" }, except = { role = "pidgin" },
-       --     properties = { floating = true }
-       -- },
         {
             rule = { class = "Pidgin" },
-            properties = { tag = tags[1][2], switchtotag = false }
+            properties = { tag = tags[1][3], floating = false, switchtotag = false }
         },
         {
             rule = { class = "Pidgin", role = "buddy_list" or "conversation"},
@@ -35,26 +31,42 @@ function rules:build(args)
             end
         },
         {
-        --     rule = { class = "Pidgin", role = "conversation" },
-        --     properties = { floating = true },
+            rule = { class = "Hangups", role = "Terminator" },
+            properties = { tag = tags[1][3], floating = false, switchtotag = false }
         },
         {
             rule = { class = "Evolution" },
             properties = { tag = tags[1][2], switchtotag = false }
         },
         {
+            rule = { class = "Xterm" },
+            properties = { tag = tags[1][2], switchtotag = false }
+        },
+        {
+            rule = { class = "Mutt" },
+            properties = { tag = tags[1][2], switchtotag = true }
+        },
+        {
+            rule = { class = "Weechat" },
+            properties = { tag = tags[1][3], switchtotag = false }
+        },
+        {
+            rule = { class = "SSH" },
+            properties = { tag = tags[1][4], switchtotag = false }
+        },
+        {
             rule = { class = "VirtualBox" },
             --except = { name = "Oracle VM VirtualBox Manager" },
-            properties = { tag = tags[1][5], switchtotag = false }
+            properties = { tag = tags[1][6], switchtotag = false }
         },
         {
             rule       = { class = "Chromium-browser" }, except = { role = "chromium-browser" },
             properties = { floating = false }
         },
-        --{
-        --    rule_any   = { class = { "pinentry", "Plugin-container" } },
-        --    properties = { floating = true }
-        --},
+        {
+            rule_any   = { class = { "pinentry", "Plugin-container" } },
+            properties = { floating = true }
+        },
         {
             rule       = { class = "Key-mon" },
             properties = { sticky = true }
@@ -69,7 +81,7 @@ function rules:build(args)
                     end
                 end
                 awful.client.movetotag(tags[1][3], c)
-                c.minimized = true
+                c.minimized = false
             end
         }
     }

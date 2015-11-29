@@ -26,7 +26,7 @@ in the album folder in order to show album art too.
 
 Variable | Meaning | Type | Default
 --- | --- | --- | ---
-`timeout` | Refresh timeout seconds | int | 2
+`timeout` | Refresh timeout seconds | int | 1
 `password` | MPD password | string | ""
 `host` | MPD server | string | "127.0.0.1"
 `port` | MPD port | string | "6600"
@@ -47,6 +47,7 @@ Pay attention to case sensitivity when defining `music_dir`.
 - file
 - artist
 - title
+- [name](https://github.com/copycat-killer/lain/pull/142)
 - album
 - date
 - [time](https://github.com/copycat-killer/lain/pull/90)

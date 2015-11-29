@@ -8,7 +8,8 @@ local wibox     = require("wibox")
 
 module("hints")
 
-charorder = "jkluiopyhnmfdsatgvcewqzx1234567890"
+--charorder = "jkluiopyhnmfdsatgvcewqzx1234567890"
+charorder = "kltsmhnzraeiu1234567890"
 hintbox = {} -- Table of letter wiboxes with characters as the keys
 
 function debuginfo( message )

@@ -114,11 +114,23 @@ function hotkeys:init(args)
     local args = args or {}
     self.menu = args.menu or redflat.menu({ items = { {"Empty menu"} } })
     self.terminal = args.terminal or "x-terminal-emulator"
+    self.ss = args.ss or "terminator --classname=SSH"
+    self.xterm = args.xterm or "xterm"
+    self.nau = args.nau or "nautilus"
+    self.keepassx = args.keepassx or "keepassx"
     self.browser = args.browser or "chromium-browser %U --force-device-scale-factor=1.5"
     self.fm = args.fm or "xterm -e ranger"
-    self.nau = args.nau or "nautilus"
+    self.newsbeuter = args.newsbeuter or "xterm -e newsbeuter"
+    self.suspend = args.suspend or "/bin/sh -c ~/.local/bin/mysuspend"
+    self.weechat = args.weechat or "xterm -class Weechat -e weechat"
+    self.hangups = args.hangups or "terminator --classname=Hangups -e ~/.local/bin/hangups"
+    self.profanity = args.profanity or "terminator --classname=Profanity -e profanity"
+    self.mail = args.mail or "xterm -class Mutt -e ~/.local/bin/mut"
+    self.mpd = args.mpd or "xterm -class MPD -e ncmpcpp"
+    self.windows = args.windows or "/bin/sh -c ~/.local/bin/wm"
     self.scrot = args.scrot or "/bin/sh -c ~/.local/bin/screenshot"
     self.lock = args.lock or "/bin/sh -c ~/.local/bin/lock"
+    self.glock = args.glock or "gnome-screensaver-command --lock"
     self.mod = args.mod or "Mod4"
     self.need_helper = args.need_helper or true
 
@@ -128,31 +140,79 @@ function hotkeys:init(args)
         { comment = "Global keys" },
         {
             args = { { self.mod,           }, "Return", function () awful.util.spawn(self.terminal) end },
-            comment = "Terminal emulator"
+            comment = "Terminator"
         },
         {
-            args = { { self.mod,           }, "g", function () awful.util.spawn(self.browser) end },
+            args = { {              "Mod1" }, "x", function () awful.util.spawn(self.xterm) end },
+            comment = "Xterm"
+        },
+        {
+            args = { {              "Mod1" }, "c", function () awful.util.spawn(self.browser) end },
             comment = "Browser"
         },
         {
-            args = { { self.mod, "Shift"   }, "Return", function () awful.util.spawn(self.fm) end },
+            args = { {              "Mod5" }, "r", function () awful.util.spawn(self.fm) end },
             comment = "Ranger"
         },
         {
-            args = { { self.mod, "Shift"   }, "h", function () awful.util.spawn(self.nau) end },
+            args = { {              "Mod1" }, "n", function () awful.util.spawn(self.nau) end },
             comment = "Nautilus"
+        },
+        {
+            args = { {              "Mod5" }, "n", function () awful.util.spawn(self.mpd) end },
+            comment = "Ncmpcpp"
+        },
+        {
+            args = { {              "Mod5" }, "m", function () awful.util.spawn(self.mail) end },
+            comment = "Mutt"
+        },
+        {
+            args = { {              "Mod5" }, "k", function () awful.util.spawn(self.keepassx) end },
+            comment = "KeepassX"
+        },
+        {
+            args = { {              "Mod5" }, "b", function () awful.util.spawn(self.newsbeuter) end },
+            comment = "Newsbeuter"
+        },
+        {
+            args = { {              "Mod5" }, "s", function () awful.util.spawn(self.ss) end },
+            comment = "SSH"
+        },
+        {
+            args = { {              "Mod1" }, "w", function () awful.util.spawn(self.weechat) end },
+            comment = "WeeChat"
+        },
+        {
+            args = { {              "Mod1" }, "g", function () awful.util.spawn(self.profanity) end },
+            comment = "Profanity"
+        },
+        {
+            args = { {              "Mod5" }, "g", function () awful.util.spawn(self.hangups) end },
+            comment = "Hangups"
+        },
+        {
+            args = { {              "Mod1" }, "v", function () awful.util.spawn(self.windows) end },
+            comment = "Windows VM"
+        },
+        {
+            args = { {              "Mod1" }, "l", function () awful.util.spawn(self.glock) end },
+            comment = "Gnome Lock"
+        },
+        {
+            args = { {              "Mod5" }, "l", function () awful.util.spawn(self.lock) end },
+            comment = "Lock"
+        },
+        {
+            args = { {              "Mod5" }, "q", function () awful.util.spawn(self.suspend) end },
+            comment = "Suspend to RAM"
         },
         {
             args = { {                     }, "Print", function () awful.util.spawn(self.scrot) end },
             comment = "PrintScreen"
         },
         {
-            args = { { self.mod,           }, "h", function () hints.focus() end },
+            args = { {              "Mod5" }, "h", function () hints.focus() end },
             comment = "Hints"
-        },
-        {
-            args = { { self.mod,           }, "f", function () awful.util.spawn(self.lock) end },
-            comment = "Lock"
         },
         {
             args = { { self.mod, "Control" }, "r", awesome.restart },
@@ -222,7 +282,7 @@ function hotkeys:init(args)
             comment = "Allication launcher"
         },
         {
-            args = { { self.mod            }, "o", function() redflat.widget.minitray:toggle() end },
+            args = { {              "Mod1" }, "e", function() redflat.widget.minitray:toggle() end },
             comment = "Show minitray"
         },
         {

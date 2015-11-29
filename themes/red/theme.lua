@@ -73,7 +73,7 @@ theme.cf_appswitcher = { font = "Play", size = 18, face = 1 } -- application swi
 theme.cf_monitor     = { font = "Play", size = 16, face = 1 } -- monitoring widget font
 
 -- environment vars
-theme.panel_height        = 40 -- panel height
+theme.panel_height        = 45 -- panel height
 theme.border_width        = 4  -- window border width
 theme.useless_gap_width   = 12 -- Lain useless gap
 theme.global_border_width = 0  -- Lain global border gap
@@ -173,10 +173,10 @@ theme.desktop.grid = {
 theme.desktop.places = {
 	netspeed = { 1, 1 },
 	ssdspeed = { 2, 1 },
-	hddspeed = { 3, 1 },
-	cpumem   = { 1, 2 },
-	thermal  = { 1, 3 },
-	disks    = { 1, 4 }
+	hddspeed = { 1, 2 },
+	cpumem   = { 2, 2 },
+	thermal  = { 3, 3 },
+	disks    = { 3, 4 }
 }
 
 -- Naughty config
@@ -508,7 +508,7 @@ theme.widget.tasklist.appnames["Evolution"           ] = "EVL"
 theme.widget.minitray = {
 	border_width = 4,
 	geometry     = { height = 40 },
-	screen_pos   = { { x = 1530, y = 960 } },
+	screen_pos   = { { x = 1300, y = 900 } },
 	screen_gap   = theme.useless_gap_width + theme.global_border_width,
 	color        = { wibox = theme.color.wibox, border = theme.color.wibox }
 }
@@ -679,8 +679,8 @@ theme.float.dfparser.desktop_file_dirs = {
 }
 
 theme.float.dfparser.icons = {
-	df_icon       = "/home/kenan/.icons/ACYL_Icon_Theme_0.9.4.3/scalable/mimetypes/application-x-executable.svg",
-	theme         = "/home/kenan/.icons/ACYL_Icon_Theme_0.9.4.3",
+	df_icon       = "/home/kenan/.icons/ACYL_Icon_Theme_0.9.4/scalable/mimetypes/application-x-executable.svg",
+	theme         = "/home/kenan/.icons/ACYL_Icon_Theme_0.9.4",
 	--theme         = os.getenv("HOME") .. "/.config/awesome/icons",
 	custom_only   = false,
 	scalable_only = false

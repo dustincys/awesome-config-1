@@ -12,15 +12,15 @@ local awful = require("awful")
 awful.rules = require("awful.rules")
 local wibox = require("wibox")
 local beautiful = require("beautiful")
---local naughty = require("naughty")
-naughty = require("naughty")
+local hints = require("hints")
+local naughty = require("naughty")
 
 require("awful.autofocus")
 
 -- User modules
 ------------------------------------------------------------
 timestamp = require("redflat.timestamp")
--- asyncshell = require("redflat.asyncshell")
+asyncshell = require("redflat.asyncshell")
 
 local lain = require("lain")
 local redflat = require("redflat")
@@ -66,20 +66,18 @@ local editor_cmd = terminal .. " -e " .. editor
 local fm = "xterm -e ranger"
 local modkey = "Mod4"
 
+-- https://github.com/kenanpelit/hints
+hints.init()
+
 -- Layouts setup
 -----------------------------------------------------------------------------------------------------------------------
 local layouts = require("red.layout-config") -- load file with layouts configuration
 
 -- Tags
 -----------------------------------------------------------------------------------------------------------------------
--- local tags = {
--- 	names  = { "Main", "Full", "Edit", "Read", "Free" },
--- 	layout = { layouts[7], layouts[8], layouts[8], layouts[7], layouts[2] },
--- }
-
 local tags = {
-	names  = { "Main", "Read", "Free", "Full", "Virtual"},
-	layout = { layouts[7], layouts[7], layouts[2], layouts[8], layouts[8] },
+	names  = { "Main", "Mail", "Read", "Full", "Free", "Virt"},
+	layout = { layouts[7], layouts[7], layouts[7], layouts[8], layouts[2], layouts[8] },
 }
 
 for s = 1, screen.count() do tags[s] = awful.tag(tags.names, s, tags.layout) end
@@ -198,7 +196,8 @@ mail.layout = wibox.layout.margin(mail.widget, unpack(pmargin.mail or {}))
 
 -- buttons
 mail.widget:buttons(awful.util.table.join(
-	awful.button({ }, 1, function () awful.util.spawn_with_shell("evolution") end),
+	--awful.button({ }, 1, function () awful.util.spawn_with_shell("evolution") end),
+	awful.button({ }, 1, function () awful.util.spawn_with_shell("xterm -e mutt") end),
 	awful.button({ }, 2, function () redflat.widget.mail:update()             end)
 ))
 
@@ -284,7 +283,7 @@ for s = 1, screen.count() do
 	tasklist[s] = redflat.widget.tasklist(s, redflat.widget.tasklist.filter.currenttags, tasklist.buttons)
 
 	-- Create the wibox
-	panel[s] = awful.wibox({ type = "normal", position = "bottom", screen = s , height = beautiful.panel_height or 40})
+	panel[s] = awful.wibox({ type = "normal", position = "bottom", screen = s , height = beautiful.panel_height or 50})
 
 	-- Widgets that are aligned to the left
 	local left_layout = wibox.layout.fixed.horizontal()
@@ -455,7 +454,7 @@ local stamp = timestamp.get()
 
 if not stamp or (os.time() - tonumber(stamp)) > 5 then
 	-- utils
-	awful.util.spawn_with_shell("/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
+	--awful.util.spawn_with_shell("/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
 	awful.util.spawn_with_shell("compton")
 	awful.util.spawn_with_shell("nm-applet")
 	awful.util.spawn_with_shell("indicator-cpufreq")
@@ -465,13 +464,12 @@ if not stamp or (os.time() - tonumber(stamp)) > 5 then
 	awful.util.spawn_with_shell("radiotray")
 	awful.util.spawn_with_shell("unclutter -idle 3 -root")
 	awful.util.spawn_with_shell("xautolock -time 5 -locker ~/.local/bin/lock")
-    --awful.util.spawn_with_shell("pulseaudio")
-	--awful.util.spawn_with_shell("gnome-keyring-daemon--daemonize--login")
+	--awful.util.spawn_with_shell("pulseaudio")
+	--awful.util.spawn_with_shell("gnome-keyring-daemon --daemonize --login")
 	--awful.util.spawn_with_shell("gnome-session --session=ubuntu")
-	--awful.util.spawn_with_shell("xrdb -merge /home/kenan/.Xdefaults")
 
 	-- keyboard layouts
-	awful.util.spawn_with_shell("setxkbmap -layout 'trf,us' -variant ',winkeys,winkeys' -option grp:rshift_toggle")
+	--awful.util.spawn_with_shell("setxkbmap -layout 'trf,trq' -variant ',winkeys,winkeys' -option grp:rshift_toggle")
 	--awful.util.spawn_with_shell("xkbcomp $DISPLAY - | egrep -v 'group . = AltGr;' | xkbcomp - $DISPLAY")
 	--awful.util.spawn_with_shell("sleep 1 && bash /home/kenan/Documents/scripts/swapctrl.sh")
 
@@ -483,7 +481,11 @@ if not stamp or (os.time() - tonumber(stamp)) > 5 then
 	awful.util.spawn_with_shell("sleep 1 && goldendict")
 	awful.util.spawn_with_shell("sleep 1 && redshift-gtk")
 	awful.util.spawn_with_shell("sleep 1 && pidgin")
-	awful.util.spawn_with_shell("sleep 1 && evolution")
+	awful.util.spawn_with_shell("sleep 1 && mail-notification")
+	awful.util.spawn_with_shell("sleep 1 && rofi -key-run F12")
+	--awful.util.spawn_with_shell("sleep 1 && ~/.local/bin/touch.sh")
+	--awful.util.spawn_with_shell("sleep 1 && ~/.local/bin/xback.sh")
+	--awful.util.spawn_with_shell("sleep 1 && evolution")
 	awful.util.spawn_with_shell("sleep 1 && chromium-browser %U --force-device-scale-factor=1.5")
 	awful.util.spawn_with_shell("sleep 10 && terminator")
 end

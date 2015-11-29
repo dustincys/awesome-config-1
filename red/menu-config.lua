@@ -70,20 +70,26 @@ function menu.build(args)
 		{ "AMV",         fm .. " /media/video/AMV", micon("folder-bookmarks") }
 	}
 
+	-- Favori submenu
+	------------------------------------------------------------
+	local favori = {
+		{ "Chromium",        "chromium",             micon("chromium")                },
+		{ "Firefox",         "firefox",              micon("firefox")                 },
+		{ "Nautilus",        "nautilus",             micon("folder")                  },
+		{ "Ranger",          ranger_command,         micon("folder")                  },
+		{ "Gedit",           "gedit",                micon("gedit")                   },
+		{ "Exaile",          "exaile",               micon("exaile")                  },
+		separator,
+	}
+
 	-- Main menu
 	------------------------------------------------------------
 	local mainmenu = redflat.menu({ hide_timeout = 1, theme = theme,
 		items = {
 			{ "Awesome",         awesomemenu,            beautiful.icon.awesome },
+			{ "Favori",          favori,                 micon("folder_home"), key = "c"  },
 			{ "Applications",    appmenu,                micon("distributor-logo")        },
 			{ "Places",          placesmenu,             micon("folder_home"), key = "c"  },
-			separator,
-			{ "Chromium",        "chromium",             micon("chromium")                },
-			{ "Firefox",         "firefox",              micon("")                        },
-			{ "Nautilus",        "nautilus",             micon("folder")                  },
-			{ "Ranger",          ranger_command,         micon("folder")                  },
-			{ "Gedit",           "gedit",                micon("gedit")                   },
-			{ "Exaile",          "exaile",               micon("")                        },
 			separator,
 			{ "Exit",            exitmenu,               micon("exit")                    },
 			{ "Lock",            lock_command,           micon("system-shutdown")         },

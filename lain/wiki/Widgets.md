@@ -18,13 +18,17 @@ You can feed `set_markup` with predefined arguments, see the sections for all th
 Here follows an example: 
 
     mycpu = lain.widgets.cpu({
-        timeout = 4,
         settings = function()
             widget:set_markup("Cpu " .. cpu_now.usage)
         end
     })
 
 If you want to see more complex applications, check [awesome-copycats](https://github.com/copycat-killer/awesome-copycats).
+
+Note
+----
+
+Some widgets use [asyncshell](https://github.com/copycat-killer/lain/blob/master/asyncshell.lua), which is based on `/bin/sh`. If you use multiple shells and [experience problems](https://github.com/copycat-killer/lain/issues/145), try re-setting your shell [here](https://github.com/copycat-killer/lain/blob/master/asyncshell.lua#L18).
 
 Index
 -----
@@ -50,8 +54,9 @@ Index
 Users contributed
 ----------------
 
+- [ccurr](https://github.com/copycat-killer/lain/wiki/ccurr)
+- [kbdlayout](https://github.com/copycat-killer/lain/wiki/kbdlayout)
+- [moc](https://github.com/copycat-killer/lain/wiki/moc)
+- [redshift](https://github.com/copycat-killer/lain/wiki/redshift)
 - [task](https://github.com/copycat-killer/lain/wiki/task)
 - [tpbat](https://github.com/copycat-killer/lain/wiki/tpbat)
-- [ccurr](https://github.com/copycat-killer/lain/wiki/ccurr)
-- [redshift](https://github.com/copycat-killer/lain/wiki/redshift)
-- [moc](https://github.com/copycat-killer/lain/wiki/moc)
