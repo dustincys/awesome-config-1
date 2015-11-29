@@ -1,4 +1,0 @@
-    awful.key({ modkey,           }, "space",  function () awful.layout.inc(layouts,  1)  end),
-    awful.key({ modkey, "Shift"   }, "space",  function () awful.layout.inc(layouts, -1)  end),
-
-    awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     ),
