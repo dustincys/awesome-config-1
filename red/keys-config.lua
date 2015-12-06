@@ -141,7 +141,7 @@ function hotkeys:init(args)
     self.raw_global = {
         { comment = "Global keys" },
         {
-            args = { {              "Mod5" }, "Mod1", function () awful.util.spawn(self.off) end },
+            args = { { self.mod,    "Mod5" }, "Return", function () awful.util.spawn(self.off) end },
             comment = "Off"
         },
         {
