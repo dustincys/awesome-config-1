@@ -13,8 +13,8 @@ theme.color = {
 	bg_second = "#181818",
 	wibox     = "#202020",
 	icon      = "#a0a0a0",
-	text      = "#aaaaaa",
-	urgent    = "#a22814",
+	text      = "#cccccc",
+	urgent    = "#f72e0e",
 	highlight = "#ffffff",
 
 	border    = "#404040",
@@ -87,7 +87,7 @@ theme.icon = {
 -----------------------------------------------------------------------------------------------------------------------
 theme.desktop = { common = {} }
 
-theme.wallpaper = theme.path .. "/wallpaper/forwidgets.png"
+theme.wallpaper = theme.path .. "../wallpaper/000.jpg"
 
 -- Common
 --------------------------------------------------------------------------------
@@ -180,8 +180,8 @@ theme.desktop.places = {
 	hddspeed = { 3, 1 },
 	cpumem   = { 1, 2 },
 	transm   = { 1, 3 },
-	disks    = { 1, 4 },
-	thermal  = { 1, 5 }
+	disks    = { 3, 4 },
+	thermal  = { 3, 5 }
 }
 
 -- Naughty config
@@ -515,7 +515,7 @@ theme.widget.tasklist.appnames["URxvt"               ] = "RXVT"
 theme.widget.minitray = {
 	border_width = 0,
 	geometry     = { height = 40 },
-	screen_pos   = { { x = 1800, y = 1110 } },
+	screen_pos   = { { x = 1400, y = 1100 } },
 	screen_gap   = theme.useless_gap_width + theme.global_border_width,
 	color        = { wibox = theme.color.wibox, border = theme.color.wibox }
 }
@@ -686,8 +686,8 @@ theme.float.dfparser.desktop_file_dirs = {
 }
 
 theme.float.dfparser.icons = {
-	df_icon       = "/home/vorron/.icons/ACYL_Icon_Theme_0.9.4.3/scalable/mimetypes/application-x-executable.svg",
-	theme         = "/home/vorron/.icons/ACYL_Icon_Theme_0.9.4.3",
+	df_icon       = os.getenv("HOME") .. "/.icons/ACYL_Icon_Theme_0.9.4/scalable/mimetypes/application-x-executable.svg",
+	theme         = os.getenv("HOME") .. "/.icons/ACYL_Icon_Theme_0.9.4",
 	--theme         = os.getenv("HOME") .. "/.config/awesome/icons",
 	custom_only   = false,
 	scalable_only = false

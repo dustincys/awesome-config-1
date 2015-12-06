@@ -124,13 +124,14 @@ function hotkeys:init(args)
     self.newsbeuter = args.newsbeuter or "xterm -e newsbeuter"
     self.suspend = args.suspend or "/bin/sh -c ~/.local/bin/mysuspend"
     self.weechat = args.weechat or "xterm -class Weechat -e weechat"
-    self.hangups = args.hangups or "terminator --classname=Hangups -e ~/.local/bin/hangups"
+    self.hangups = args.hangups or "terminator --classname=Hangups -e '~/.local/bin/hangups --col-scheme solarized-dark'"
     self.profanity = args.profanity or "terminator --classname=Profanity -e profanity"
     self.mail = args.mail or "xterm -class Mutt -e ~/.local/bin/mut"
     self.mpd = args.mpd or "xterm -class MPD -e ncmpcpp"
     self.windows = args.windows or "/bin/sh -c ~/.local/bin/wm"
     self.scrot = args.scrot or "/bin/sh -c ~/.local/bin/screenshot"
     self.lock = args.lock or "/bin/sh -c ~/.local/bin/lock"
+    self.off = args.off or "/bin/sh -c ~/.local/bin/off"
     self.glock = args.glock or "gnome-screensaver-command --lock"
     self.mod = args.mod or "Mod4"
     self.need_helper = args.need_helper or true
@@ -139,6 +140,10 @@ function hotkeys:init(args)
     --------------------------------------------------------------------------------
     self.raw_global = {
         { comment = "Global keys" },
+        {
+            args = { {              "Mod5" }, "Mod1", function () awful.util.spawn(self.off) end },
+            comment = "Off"
+        },
         {
             args = { { self.mod,           }, "Return", function () awful.util.spawn(self.terminal) end },
             comment = "Terminator"
@@ -152,7 +157,7 @@ function hotkeys:init(args)
             comment = "Browser"
         },
         {
-            args = { {              "Mod5" }, "r", function () awful.util.spawn(self.fm) end },
+            args = { {              "Mod5" }, "z", function () awful.util.spawn(self.fm) end },
             comment = "Ranger"
         },
         {
@@ -216,7 +221,7 @@ function hotkeys:init(args)
             comment = "PrintScreen"
         },
         {
-            args = { {              "Mod5" }, "h", function () hints.focus() end },
+            args = { { self.mod,           }, "h", function () hints.focus() end },
             comment = "Hints"
         },
         {

@@ -107,9 +107,9 @@ function desktop:init(args)
 
 	thermal.args = {
 		sensors = {
-			{ meter_function = system.thermal.sensors, args = "'Physical id 0'", maxm = 100, crit = 75 },
+			{ meter_function = system.thermal.sensors, args = "'Physical id 0'", maxm = 95, crit = 75 },
 			{ meter_function = system.thermal.hddtemp, args = {disk = "/dev/sda"}, maxm = 60, crit = 45 },
-			{ meter_function = system.thermal.nvoptimus, maxm = 105, crit = 80 }
+			--{ meter_function = system.thermal.nvoptimus, maxm = 105, crit = 80 }
 		},
 		names   = {"cpu", "hdd", "gpu"},
 		timeout = 5

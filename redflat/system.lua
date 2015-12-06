@@ -343,15 +343,98 @@ end
 
 -- Using nvidia-settings on sysmem with optimus (bumblebee)
 ------------------------------------------------------------
-function system.thermal.nvoptimus()
-	local temp = 0
-	--local nvidia_on = string.find(awful.util.pread("cat /proc/acpi/bbswitch"), "ON")
+--function system.thermal.nvoptimus()
+--	local temp = 0
+--	local nvidia_on = string.find(awful.util.pread("cat /proc/acpi/bbswitch"), "ON")
 
-	if nvidia_on ~= nil then
-	--	temp = string.match(awful.util.pread("optirun -b none nvidia-settings -c :8 -q gpucoretemp -t"), "[^\n]+")
+--	if nvidia_on ~= nil then
+--		temp = string.match(awful.util.pread("optirun -b none nvidia-settings -c :8 -q gpucoretemp -t"), "[^\n]+")
+--	end
+
+--	return { tonumber(temp), off = nvidia_on == nil }
+--end
+
+-- Get info from transmission-remote client
+-- This function adapted special for asyncshell
+-----------------------------------------------------------------------------------------------------------------------
+
+-- Check if transmission client running
+--------------------------------------------------------------------------------
+local function is_transmission_running(args)
+	local t_client = args or "transmission-gtk"
+	return awful.util.pread("pidof -x " .. t_client) ~= ""
+end
+
+-- Function for torrents sorting (downloading and paused first)
+--------------------------------------------------------------------------------
+local function sort_torrent(a, b)
+	return a.status == "Downloading" and b.status ~= "Downloading"
+	       or a.status == "Stopped" and b.status ~= "Stopped" and b.status ~= "Downloading"
+end
+
+-- Function to parse 'transmission-remote -l' output
+--------------------------------------------------------------------------------
+function system.transmission_parse(output)
+
+	-- Empty output for redflat desktop widget if torrent client is not running
+	------------------------------------------------------------
+	if not is_transmission_running() then
+		return { corners = {}, lines = { { 0, 0 }, { 0, 0 } }, alert = true }
 	end
 
-	return { tonumber(temp), off = nvidia_on == nil }
+	-- Initialize vars
+	------------------------------------------------------------
+	local torrent = {
+		seed  = { num = 0, speed = 0 },
+		dnld  = { num = 0, speed = 0 },
+		list  = {},
+	}
+
+	-- Find state and progress for every torrent
+	-- and total upload and downoad speed
+	------------------------------------------------------------
+	local status_pos = string.find(output, "Status")
+
+	-- assuming "Up & Down" and "Downloading" is the same thing
+	output = string.gsub(output,"Up & Down","Downloading")
+
+	-- parse every line
+	for line in string.gmatch(output, "[^\n]+") do
+		if string.sub(line, 1, 3) == "Sum" then
+			-- get total speed
+			torrent.seed.speed, torrent.dnld.speed = string.match(line,
+				"Sum:%s+[%d%.]+%s+%a+%s+([%d%.]+)%s+([%d%.]+)"
+			)
+		else
+			-- get torrent info
+			local prog, status = string.match(line,
+				"%s+%d+%s+(%d+)%%%s+[%d%.]+%s%a+%s+.+%s+[%d%.]+%s+[%d%.]+%s+[%d%.]+%s+(%a+)"
+			)
+
+			if prog and status then
+				table.insert(torrent.list, { prog = prog, status = status })
+
+				if     status == "Seeding"     then torrent.seed.num = torrent.seed.num + 1
+				elseif status == "Downloading" then torrent.dnld.num = torrent.dnld.num + 1
+				end
+			end
+		end
+	end
+
+	-- Sort torrents
+	------------------------------------------------------------
+	table.sort(torrent.list, sort_torrent)
+
+	-- Format output special for redflat desktop widget
+	------------------------------------------------------------
+	local sorted_prog = {}
+	for _, t in ipairs(torrent.list) do table.insert(sorted_prog , t.prog) end
+
+	return {
+		corners = sorted_prog,
+		lines = { { torrent.seed.speed, torrent.seed.num }, { torrent.dnld.speed, torrent.dnld.num } },
+		alert = false
+	}
 end
 
 -- Get processes list and cpu and memory usage for every process

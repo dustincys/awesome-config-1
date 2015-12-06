@@ -11,8 +11,8 @@ local gears = require("gears")
 local awful = require("awful")
 awful.rules = require("awful.rules")
 local wibox = require("wibox")
-local beautiful = require("beautiful")
 local hints = require("hints")
+local beautiful = require("beautiful")
 local naughty = require("naughty")
 
 require("awful.autofocus")
@@ -22,10 +22,9 @@ require("awful.autofocus")
 timestamp = require("redflat.timestamp")
 asyncshell = require("redflat.asyncshell")
 
-local lain = require("lain")
 local redflat = require("redflat")
+local lain = require("lain")
 
-local system = redflat.system
 local separator = redflat.gauge.separator
 
 -- Error handling
@@ -76,8 +75,8 @@ local layouts = require("red.layout-config") -- load file with layouts configura
 -- Tags
 -----------------------------------------------------------------------------------------------------------------------
 local tags = {
-	names  = { "Main", "Read", "Free", "Full", "Virtual"},
-	layout = { layouts[7], layouts[7], layouts[2], layouts[8], layouts[8] },
+    names  = { "Main", "Mail", "Read", "Full", "Free", "Virt"},
+    layout = { layouts[7], layouts[7], layouts[7], layouts[8], layouts[2], layouts[8] },
 }
 
 for s = 1, screen.count() do tags[s] = awful.tag(tags.names, s, tags.layout) end
@@ -118,10 +117,6 @@ end
 --------------------------------------------------------------------------------
 local single_sep = separator.vertical({ margin = pmargin.single_sep })
 
-local double_sep = wibox.layout.fixed.horizontal()
---double_sep:add(separator.vertical({ margin = pmargin.double_sep[1] }))
---double_sep:add(separator.vertical({ margin = pmargin.double_sep[2] }))
-
 -- Taglist configure
 --------------------------------------------------------------------------------
 local taglist = {}
@@ -143,12 +138,14 @@ taglist.buttons = awful.util.table.join(
 --------------------------------------------------------------------------------
 local upgrades = {}
 upgrades.widget = redflat.widget.upgrades()
+--[[
 upgrades.layout = wibox.layout.margin(upgrades.widget, unpack(pmargin.upgrades or {}))
 
 upgrades.widget:buttons(awful.util.table.join(
 	awful.button({}, 1, function () mainmenu:toggle()           end),
 	awful.button({}, 2, function () redflat.widget.upgrades:update() end)
 ))
+--]]
 
 -- PA volume control
 -- also this widget used for exaile control
@@ -180,15 +177,10 @@ layoutbox.buttons = awful.util.table.join(
 )
 
 -- Keyboard widget
----------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
 local kbindicator = {}
-kbindicator.widget = redflat.widget.keyboard({ layouts = { "Turkish", "English" } })
+kbindicator.widget = redflat.widget.keyboard({ layouts = { "TurkishF", "TurkishQ" } })
 kbindicator.layout = wibox.layout.margin(kbindicator.widget, unpack(pmargin.kbindicator or {}))
-
-local volume = {}
-volume.widget = redflat.widget.pulse(nil, { widget = redflat.gauge.blueaudio.new })
-volume.layout = wibox.layout.margin(volume.widget, unpack(pmargin.volume or {}))
-
 
 kbindicator.widget:buttons(awful.util.table.join(
 	awful.button({}, 1, function () redflat.widget.keyboard:toggle_menu() end),
@@ -208,8 +200,10 @@ mail.layout = wibox.layout.margin(mail.widget, unpack(pmargin.mail or {}))
 
 -- buttons
 mail.widget:buttons(awful.util.table.join(
-	awful.button({ }, 1, function () awful.util.spawn_with_shell("evolution") end),
-	awful.button({ }, 2, function () redflat.widget.mail:update()             end)
+    --awful.button({ }, 1, function () awful.util.spawn_with_shell("evolution") end),
+    --awful.button({ }, 1, function () awful.util.spawn_with_shell("xterm -e mutt") end),
+    awful.button({ }, 1, function () awful.util.spawn_with_shell("xterm -class Mutt -e ~/.local/bin/mut") end),
+    awful.button({ }, 2, function () redflat.widget.mail:update()             end)
 ))
 
 -- Tasklist
@@ -258,7 +252,7 @@ monitor.widget = {
 		{ timeout = 2,  widget = redflat.gauge.doublemonitor, monitor = { icon = cpu_icon } }
 	),
 	net = redflat.widget.net(
-		{ interface = "wlan0", alert = net_alert, speed = net_speed, autoscale = false },
+		{ interface = "wlp1s0", alert = net_alert, speed = net_speed, autoscale = false },
 		{ timeout = 2, widget = redflat.gauge.doublemonitor, monitor = { icon = net_icon } }
 	),
 	bat = redflat.widget.sysmon(
@@ -485,36 +479,41 @@ awesome.connect_signal("exit",
 local stamp = timestamp.get()
 
 if not stamp or (os.time() - tonumber(stamp)) > 5 then
-	-- utils
-	awful.util.spawn_with_shell("/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
-	awful.util.spawn_with_shell("compton")
-	awful.util.spawn_with_shell("nm-applet")
-	awful.util.spawn_with_shell("indicator-cpufreq")
-	awful.util.spawn_with_shell("psensor")
-	awful.util.spawn_with_shell("pasystray")
-	awful.util.spawn_with_shell("parcellite")
-	awful.util.spawn_with_shell("radiotray")
-	awful.util.spawn_with_shell("unclutter -idle 3 -root")
-	awful.util.spawn_with_shell("xautolock -time 5 -locker ~/.local/bin/lock")
-	--awful.util.spawn_with_shell("pulseaudio")
-	--awful.util.spawn_with_shell("gnome-keyring-daemon--daemonize--login")
-	--awful.util.spawn_with_shell("gnome-session --session=ubuntu")
-	--awful.util.spawn_with_shell("xrdb -merge /home/kenan/.Xdefaults")
+    -- utils
+    awful.util.spawn_with_shell("/usr/lib/policykit-1-gnome/polkit-gnome-authentication-agent-1")
+    awful.util.spawn_with_shell("compton")
+    awful.util.spawn_with_shell("nm-applet")
+    awful.util.spawn_with_shell("indicator-cpufreq")
+    awful.util.spawn_with_shell("psensor")
+    awful.util.spawn_with_shell("pasystray")
+    awful.util.spawn_with_shell("parcellite")
+    awful.util.spawn_with_shell("radiotray")
+    awful.util.spawn_with_shell("unclutter -idle 3 -root")
+    awful.util.spawn_with_shell("xautolock -time 10 -locker ~/.local/bin/lock")
+    --awful.util.spawn_with_shell("pulseaudio")
+    --awful.util.spawn_with_shell("gnome-session --session=ubuntu")
 
-	-- keyboard layouts
-	awful.util.spawn_with_shell("setxkbmap -layout 'trf,us' -variant ',winkeys,winkeys' -option grp:rshift_toggle")
-	--awful.util.spawn_with_shell("xkbcomp $DISPLAY - | egrep -v 'group . = AltGr;' | xkbcomp - $DISPLAY")
-	--awful.util.spawn_with_shell("sleep 1 && bash /home/kenan/Documents/scripts/swapctrl.sh")
+    -- keyboard layouts
+    --awful.util.spawn_with_shell("setxkbmap tr -variant 'f,q' -variant ',winkeys,winkeys' -option grp:rshift_toggle")
+    --awful.util.spawn_with_shell("xkbcomp $DISPLAY - | egrep -v 'group . = AltGr;' | xkbcomp - $DISPLAY")
+    --awful.util.spawn_with_shell("sleep 1 && bash /home/kenan/Documents/scripts/swapctrl.sh")
+    --awful.util.spawn_with_shell("kbdd")
 
-	-- apps
-	--awful.util.spawn_with_shell("exaile")
-	--awful.util.spawn_with_shell("sleep 1 && /usr/bin/mail-notification")
-	--awful.util.spawn_with_shell("sleep 1 && alltray transmission-gtk")
-	awful.util.spawn_with_shell("sleep 1 && /opt/copy-client/CopyAgent")
-	awful.util.spawn_with_shell("sleep 1 && goldendict")
-	awful.util.spawn_with_shell("sleep 1 && redshift-gtk")
-	awful.util.spawn_with_shell("sleep 1 && pidgin")
-	awful.util.spawn_with_shell("sleep 1 && evolution")
-	awful.util.spawn_with_shell("sleep 1 && chromium-browser %U --force-device-scale-factor=1.5")
-	awful.util.spawn_with_shell("sleep 10 && terminator")
+    -- apps
+    --awful.util.spawn_with_shell("exaile")
+    --awful.util.spawn_with_shell("sleep 1 && alltray transmission-gtk")
+    awful.util.spawn_with_shell("/opt/copy-client/CopyAgent")
+    awful.util.spawn_with_shell("/usr/bin/dropbox")
+    awful.util.spawn_with_shell("rofi -key-run F12")
+    awful.util.spawn_with_shell("goldendict")
+    awful.util.spawn_with_shell("redshift-gtk")
+    awful.util.spawn_with_shell("gnome-keyring-daemon --daemonize --login")
+    awful.util.spawn_with_shell("mail-notification")
+    --awful.util.spawn_with_shell("terminator --classname=Hangups -e ~/.local/bin/hangups")
+    --awful.util.spawn_with_shell("sleep 1 && pidgin")
+    awful.util.spawn_with_shell("sleep 1 && ~/.local/bin/touch")
+    awful.util.spawn_with_shell("sleep 1 && ~/.local/bin/xback")
+    --awful.util.spawn_with_shell("sleep 1 && chromium-browser %U --force-device-scale-factor=1.5")
+    --awful.util.spawn_with_shell("sleep 10 && terminator")
 end
+--]]
