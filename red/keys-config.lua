@@ -132,6 +132,7 @@ function hotkeys:init(args)
     self.scrot = args.scrot or "/bin/sh -c ~/.local/bin/screenshot"
     self.lock = args.lock or "/bin/sh -c ~/.local/bin/lock"
     self.off = args.off or "/bin/sh -c ~/.local/bin/off"
+    self.reboot = args.reboot or "/bin/sh -c ~/.local/bin/boot"
     self.glock = args.glock or "gnome-screensaver-command --lock"
     self.mod = args.mod or "Mod4"
     self.need_helper = args.need_helper or true
@@ -141,8 +142,12 @@ function hotkeys:init(args)
     self.raw_global = {
         { comment = "Global keys" },
         {
-            args = { { self.mod,    "Mod5" }, "Return", function () awful.util.spawn(self.off) end },
-            comment = "Off"
+            args = { { "Mod1",      "Mod5" }, "p", function () awful.util.spawn(self.off) end },
+            comment = "Poweroff"
+        },
+        {
+            args = { { "Mod1",      "Mod5" }, "r", function () awful.util.spawn(self.reboot) end },
+            comment = "Reboot"
         },
         {
             args = { { self.mod,           }, "Return", function () awful.util.spawn(self.terminal) end },

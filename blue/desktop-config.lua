@@ -130,7 +130,7 @@ function desktop:init(args)
 			{ meter_function = system.thermal.hddtemp, args = {disk = "/dev/sda"}, maxm = 60, crit = 45 },
 --			{ meter_function = system.thermal.nvoptimus, maxm = 105, crit = 80 }
 		},
-		names   = {"cpu", "hdd", "sdd"},
+		names   = {"cpu", "sdd", "sdd"},
 		timeout = 5
 	}
 

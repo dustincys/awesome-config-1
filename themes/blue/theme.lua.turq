@@ -7,14 +7,16 @@ local theme = {}
 -- Color scheme
 -----------------------------------------------------------------------------------------------------------------------
 theme.color = {
-	main      = "#e60400",
+--	main      = "#246b99",
+--	main      = "#2f8cc9",
+	main      = "#00ced1",
 	gray      = "#575757",
 	bg        = "#161616",
 	bg_second = "#181818",
 	wibox     = "#202020",
 	icon      = "#a0a0a0",
-	text      = "#aaaaaa",
-	urgent    = "#0dfcff",
+	text      = "#cccccc",
+	urgent    = "#f72e0e",
 	highlight = "#ffffff",
 
 	border    = "#404040",
