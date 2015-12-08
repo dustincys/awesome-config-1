@@ -14,7 +14,7 @@ theme.color = {
 	wibox     = "#202020",
 	icon      = "#a0a0a0",
 	text      = "#aaaaaa",
-	urgent    = "#0dfcff",
+	urgent    = "#ff0000",
 	highlight = "#ffffff",
 
 	border    = "#404040",

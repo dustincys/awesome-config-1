@@ -133,6 +133,7 @@ function hotkeys:init(args)
     self.lock = args.lock or "/bin/sh -c ~/.local/bin/lock"
     self.off = args.off or "/bin/sh -c ~/.local/bin/off"
     self.reboot = args.reboot or "/bin/sh -c ~/.local/bin/boot"
+    self.calendar = args.calendar or "xterm -class Calcurse -e calcurse"
     self.glock = args.glock or "gnome-screensaver-command --lock"
     self.mod = args.mod or "Mod4"
     self.need_helper = args.need_helper or true
@@ -188,6 +189,10 @@ function hotkeys:init(args)
         {
             args = { {              "Mod5" }, "b", function () awful.util.spawn(self.newsbeuter) end },
             comment = "Newsbeuter"
+        },
+        {
+            args = { {              "Mod5" }, "c", function () awful.util.spawn(self.calendar) end },
+            comment = "Calcurse"
         },
         {
             args = { {              "Mod5" }, "s", function () awful.util.spawn(self.ss) end },
