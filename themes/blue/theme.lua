@@ -158,7 +158,7 @@ theme.desktop.dashpack = {
 -- Thermal
 ------------------------------------------------------------
 theme.desktop.sline = {
-	digit_num = 2,
+	digit_num = 1,
 	lbox      = { draw = "by_width", width = 50 },
 	rbox      = { draw = "by_edges", width = 60 },
 	icon      = theme.path .. "/desktop/star.svg",
@@ -169,19 +169,19 @@ theme.desktop.sline = {
 -- Widgets placement
 --------------------------------------------------------------------------------
 theme.desktop.grid = {
-	width  = { 520, 520, 520 },
-	height = { 180, 160, 160, 138, 18 },
-	edge   = { width = { 60, 60 }, height = { 40, 40 } }
+	width  = { 400, 400, 400 },
+	height = { 18, 180, 180, 180, 160, 130 },
+	edge   = { width = { 100, 100 }, height = { 200, 200 } }
 }
 
 theme.desktop.places = {
-	netspeed = { 1, 1 },
-	ssdspeed = { 2, 1 },
-	hddspeed = { 3, 1 },
-	cpumem   = { 1, 2 },
-	transm   = { 1, 3 },
-	disks    = { 3, 4 },
-	thermal  = { 3, 5 }
+	thermal  = { 3, 1 },
+	netspeed = { 3, 2 },
+	ssdspeed = { 3, 3 },
+	hddspeed = { 3, 4 },
+	cpumem   = { 3, 5 },
+	disks    = { 3, 6 }
+--	transm   = { 1, 5 },
 }
 
 -- Naughty config

@@ -310,7 +310,7 @@ for s = 1, screen.count() do
 	tasklist[s].layout = wibox.layout.margin(tasklist[s].widget, unpack(tasklist.margin or {}))
 
 	-- Create the wibox
-	panel[s] = awful.wibox({ type = "normal", position = "bottom", screen = s , height = beautiful.panel_height or 50})
+	panel[s] = awful.wibox({ type = "normal", position = "top", screen = s , height = beautiful.panel_height or 50})
 
 	-- Widgets that are aligned to the left
 	local left_layout = wibox.layout.fixed.horizontal()
