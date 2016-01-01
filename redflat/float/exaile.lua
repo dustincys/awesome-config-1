@@ -331,10 +331,10 @@ dbus.connect_signal("org.freedesktop.DBus.Properties",
 
 		-- update player volume info
 		-- !!! Workaround bacause awesome dbus doesn't recognize data.Volume double type !!!
-		if not data.PlaybackStatus and not data.Metadata or not last.volume_checked then
-			asyncshell.request(command .. "GetVolume", function(o) exaile.volume:set_value(o /100) end)
-			last.volume_checked = true
-		end
+		--if not data.PlaybackStatus and not data.Metadata or not last.volume_checked then
+			--asyncshell.request(command .. "GetVolume", function(o) exaile.volume:set_value(o /100) end)
+		--	last.volume_checked = true
+		--end
 	end
 )
 

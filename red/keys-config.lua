@@ -113,43 +113,66 @@ function hotkeys:init(args)
 
     local args = args or {}
     self.menu = args.menu or redflat.menu({ items = { {"Empty menu"} } })
-    self.terminal = args.terminal or "x-terminal-emulator"
-    self.ss = args.ss or "terminator --classname=SSH"
-    self.mpv = args.mpv or "mpv"
-    self.xterm = args.xterm or "xterm"
-    self.nau = args.nau or "nautilus"
-    self.keepassx = args.keepassx or "keepassx"
-    self.browser = args.browser or "chromium-browser %U --force-device-scale-factor=1.5"
-    self.fm = args.fm or "xterm -e ranger"
-    self.newsbeuter = args.newsbeuter or "xterm -e newsbeuter"
-    self.suspend = args.suspend or "/bin/sh -c ~/.local/bin/mysuspend"
-    self.weechat = args.weechat or "xterm -class Weechat -e weechat"
-    self.hangups = args.hangups or "terminator --classname=Hangups -e '~/.local/bin/hangups --col-scheme solarized-dark'"
-    self.profanity = args.profanity or "terminator --classname=Profanity -e profanity"
-    self.mail = args.mail or "xterm -class Mutt -e ~/.local/bin/mut"
-    self.mpd = args.mpd or "xterm -class MPD -e ncmpcpp"
-    self.windows = args.windows or "/bin/sh -c ~/.local/bin/wm"
-    self.scrot = args.scrot or "/bin/sh -c ~/.local/bin/screenshot"
-    self.lock = args.lock or "/bin/sh -c ~/.local/bin/lock"
-    self.off = args.off or "/bin/sh -c ~/.local/bin/off"
-    self.reboot = args.reboot or "/bin/sh -c ~/.local/bin/boot"
+    self.browser = args.browser or "google-chrome %U --force-device-scale-factor=1.5"
+    --self.browser = args.browser or "chromium-browser %U --force-device-scale-factor=1.5"
     self.calendar = args.calendar or "xterm -class Calcurse -e calcurse"
+    --self.cmus = args.mpd or "xterm -class Cmus -e cmus"
+    self.firefox = args.firefox or "firefox"
+    self.fm = args.fm or "xterm -e ranger"
     self.glock = args.glock or "gnome-screensaver-command --lock"
+    self.keepassx = args.keepassx or "keepassx"
+    self.hangups = args.hangups or "terminator --classname=Hangups -e '~/.local/bin/hangups --col-scheme solarized-dark'"
+    self.lock = args.lock or "/bin/sh -c ~/.local/bin/lock"
+    self.mail = args.mail or "/bin/sh -c ${HOME}/.local/bin/muttt.sh"
+    --self.mail = args.mail or "xterm -class Mutt -e ~/.local/bin/mut"
     self.mod = args.mod or "Mod4"
+    self.mpd = args.mpd or "xterm -class MPD -e ncmpcpp"
+    self.mpv = args.mpv or "mpv --profile=pseudo-gui"
+    self.newsbeuter = args.newsbeuter or "xterm -e newsbeuter"
+    self.nau = args.nau or "nautilus"
+    self.off = args.off or "/bin/sh -c ~/.local/bin/off"
+    self.profanity = args.profanity or "terminator --classname=Profanity -e profanity"
+    self.reboot = args.reboot or "/bin/sh -c ~/.local/bin/boot"
+    self.scrot = args.scrot or "/bin/sh -c ~/.local/bin/screenshot"
+    self.smplayer = args.smp or "smplayer"
+    self.ss = args.ss or "terminator --classname=SSH"
+    self.suspend = args.suspend or "/bin/sh -c ~/.local/bin/mysuspend"
+    self.terminal = args.terminal or "x-terminal-emulator"
+    self.virtualbox = args.virtualbox or "virtualbox"
+    self.weechat = args.weechat or "xterm -class Weechat -e weechat"
+    self.windows = args.windows or "/bin/sh -c ~/.local/bin/wm"
+    self.xterm = args.xterm or "xterm"
     self.need_helper = args.need_helper or true
 
     -- Global keys
     --------------------------------------------------------------------------------
     self.raw_global = {
-        { comment = "Global keys" },
+        { comment = "Power keys" },
         {
             args = { { "Mod1",      "Mod5" }, "p", function () awful.util.spawn(self.off) end },
             comment = "Poweroff"
         },
         {
-            args = { { "Mod1",      "Mod5" }, "r", function () awful.util.spawn(self.reboot) end },
+            args = { { "Mod1",      "Mod5" }, "h", function () awful.util.spawn(self.reboot) end },
             comment = "Reboot"
         },
+        {
+            args = { { "Mod1",      "Mod5" }, "q", function () awful.util.spawn(self.suspend) end },
+            comment = "Suspend to RAM"
+        },
+        {
+            args = { {              "Mod1" }, "l", function () awful.util.spawn(self.glock) end },
+            comment = "Gnome Lock"
+        },
+        {
+            args = { {              "Mod5" }, "l", function () awful.util.spawn(self.lock) end },
+            comment = "Screen Lock"
+        },
+        {
+            args = { { self.mod, "Control" }, "r", awesome.restart },
+            comment = "Restart awesome"
+        },
+        { comment = "Applications keys" },
         {
             args = { { self.mod,           }, "Return", function () awful.util.spawn(self.terminal) end },
             comment = "Terminator"
@@ -159,8 +182,12 @@ function hotkeys:init(args)
             comment = "Xterm"
         },
         {
-            args = { {              "Mod1" }, "c", function () awful.util.spawn(self.browser) end },
+            args = { {              "Mod1" }, "v", function () awful.util.spawn(self.browser) end },
             comment = "Browser"
+        },
+        {
+            args = { {              "Mod5" }, "t", function () awful.util.spawn(self.firefox) end },
+            comment = "Firefox"
         },
         {
             args = { {              "Mod5" }, "z", function () awful.util.spawn(self.fm) end },
@@ -174,9 +201,17 @@ function hotkeys:init(args)
             args = { {              "Mod5" }, "n", function () awful.util.spawn(self.mpd) end },
             comment = "Ncmpcpp"
         },
+        --{
+        --    args = { {              "Mod5" }, "n", function () awful.util.spawn(self.cmus) end },
+        --    comment = "Cmus"
+        --},
         {
             args = { {              "Mod5" }, "a", function () awful.util.spawn(self.mpv) end },
             comment = "Mpv"
+        },
+        {
+            args = { {              "Mod5" }, "e", function () awful.util.spawn(self.smplayer) end },
+            comment = "Smplayer"
         },
         {
             args = { {              "Mod5" }, "m", function () awful.util.spawn(self.mail) end },
@@ -211,20 +246,12 @@ function hotkeys:init(args)
             comment = "Hangups"
         },
         {
-            args = { {              "Mod1" }, "v", function () awful.util.spawn(self.windows) end },
+            args = { {              "Mod1" }, "ç", function () awful.util.spawn(self.virtualbox) end },
+            comment = "VirtualBox"
+        },
+        {
+            args = { {              "Mod1" }, "c", function () awful.util.spawn(self.windows) end },
             comment = "Windows VM"
-        },
-        {
-            args = { {              "Mod1" }, "l", function () awful.util.spawn(self.glock) end },
-            comment = "Gnome Lock"
-        },
-        {
-            args = { {              "Mod5" }, "l", function () awful.util.spawn(self.lock) end },
-            comment = "Lock"
-        },
-        {
-            args = { {              "Mod5" }, "q", function () awful.util.spawn(self.suspend) end },
-            comment = "Suspend to RAM"
         },
         {
             args = { {                     }, "Print", function () awful.util.spawn(self.scrot) end },
@@ -233,10 +260,6 @@ function hotkeys:init(args)
         {
             args = { { self.mod,           }, "h", function () hints.focus() end },
             comment = "Hints"
-        },
-        {
-            args = { { self.mod, "Control" }, "r", awesome.restart },
-            comment = "Restart awesome"
         },
         {
             args = { { self.mod,           }, "b", function () redflat.service.keyboard.handler() end },
@@ -331,11 +354,11 @@ function hotkeys:init(args)
             comment = "Switch to previous with current tag"
         },
         {
-            args = { { self.mod, "Shift"   }, "a", nil, function() sw:show({ filter = allscr }) end },
+            args = { { self.mod, "Control" }, "a", nil, function() sw:show({ filter = allscr }) end },
             comment = "Switch to next through all tags"
         },
         {
-            args = { { self.mod, "Shift"   }, "q", nil, function() sw:show({ filter = allscr, reverse = true }) end },
+            args = { { self.mod, "Control" }, "q", nil, function() sw:show({ filter = allscr, reverse = true }) end },
             comment = "Switch to previous through all tags"
         },
         { comment = "Exaile music player" },

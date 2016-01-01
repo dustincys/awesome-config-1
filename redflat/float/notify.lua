@@ -126,7 +126,7 @@ function notify:show(args)
 	redutil.placement.no_offscreen(self.wibox, self.style.screen_gap, screen[mouse.screen].workarea)
 	if not self.wibox.visible then self.wibox.visible = true end
 
---	self.hidetimer:stop()
+	self.hidetimer:stop()
 	self.hidetimer:start()
 end
 

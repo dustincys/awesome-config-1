@@ -19,7 +19,7 @@ function rules:build(args)
     local user_rules = {
         {
             rule = { class = "Pidgin" },
-            properties = { tag = tags[1][3], floating = false, switchtotag = false }
+            properties = { tag = tags[1][2], floating = false, switchtotag = false }
         },
         {
             rule = { class = "Pidgin", role = "buddy_list" or "conversation"},
@@ -57,10 +57,10 @@ function rules:build(args)
         {
             rule = { class = "VirtualBox" },
             --except = { name = "Oracle VM VirtualBox Manager" },
-            properties = { tag = tags[1][6], switchtotag = false }
+            properties = { tag = tags[1][5], switchtotag = false }
         },
         {
-            rule       = { class = "Chromium-browser" }, except = { role = "chromium-browser" },
+            rule       = { class = "google-chrome" }, except = { role = "google-chrome" },
             properties = { floating = false }
         },
         {

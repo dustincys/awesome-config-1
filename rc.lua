@@ -75,8 +75,8 @@ local layouts = require("red.layout-config") -- load file with layouts configura
 -- Tags
 -----------------------------------------------------------------------------------------------------------------------
 local tags = {
-    names  = { "Main", "Mail", "Read", "Full", "Free", "Virt"},
-    layout = { layouts[7], layouts[7], layouts[7], layouts[8], layouts[2], layouts[8] },
+    names  = { "Main", "Mail", "Free", "Full", "Virt"},
+    layout = { layouts[7], layouts[7], layouts[2], layouts[8], layouts[8] },
 }
 
 for s = 1, screen.count() do tags[s] = awful.tag(tags.names, s, tags.layout) end
@@ -310,7 +310,7 @@ for s = 1, screen.count() do
 	tasklist[s].layout = wibox.layout.margin(tasklist[s].widget, unpack(tasklist.margin or {}))
 
 	-- Create the wibox
-	panel[s] = awful.wibox({ type = "normal", position = "top", screen = s , height = beautiful.panel_height or 50})
+	panel[s] = awful.wibox({ type = "normal", position = "bottom", screen = s , height = beautiful.panel_height or 50})
 
 	-- Widgets that are aligned to the left
 	local left_layout = wibox.layout.fixed.horizontal()
@@ -326,14 +326,14 @@ for s = 1, screen.count() do
 	-- Widgets that are aligned to the right
 	local right_layout = wibox.layout.fixed.horizontal()
 	local right_elements = {
-		single_sep, kbindicator.layout,
+--		single_sep, kbindicator.layout,
 		single_sep, mail.layout,
 		single_sep, monitor.layout.net,
 		single_sep, monitor.layout.cpumem,
 		single_sep, volume.layout,
 		single_sep, tray.layout,
 		single_sep, monitor.layout.bat,
-		single_sep, textclock.layout
+		single_sep, textclock.layout,
 	}
 	for _, element in ipairs(right_elements) do
 		right_layout:add(element)
@@ -349,10 +349,8 @@ for s = 1, screen.count() do
 	layout:set_middle(tasklist[s].layout)
 	--layout:set_middle(middle_align)
 	layout:set_right(right_layout)
-
 	panel[s]:set_widget(layout)
 end
-
 
 -- Wallpaper setup
 -----------------------------------------------------------------------------------------------------------------------
@@ -488,8 +486,10 @@ if not stamp or (os.time() - tonumber(stamp)) > 5 then
     awful.util.spawn_with_shell("pasystray")
     awful.util.spawn_with_shell("parcellite")
     awful.util.spawn_with_shell("radiotray")
+    --awful.util.spawn_with_shell("osdlyrics")
     awful.util.spawn_with_shell("unclutter -idle 3 -root")
     awful.util.spawn_with_shell("xautolock -time 10 -locker ~/.local/bin/lock")
+    --awful.util.spawn_with_shell("fdpowermon")
     --awful.util.spawn_with_shell("pulseaudio")
     --awful.util.spawn_with_shell("gnome-session --session=ubuntu")
 
@@ -500,8 +500,6 @@ if not stamp or (os.time() - tonumber(stamp)) > 5 then
     --awful.util.spawn_with_shell("kbdd")
 
     -- apps
-    --awful.util.spawn_with_shell("exaile")
-    --awful.util.spawn_with_shell("sleep 1 && alltray transmission-gtk")
     awful.util.spawn_with_shell("/opt/copy-client/CopyAgent")
     awful.util.spawn_with_shell("/usr/bin/dropbox")
     awful.util.spawn_with_shell("rofi -key-run F12")
@@ -509,10 +507,14 @@ if not stamp or (os.time() - tonumber(stamp)) > 5 then
     awful.util.spawn_with_shell("redshift-gtk")
     awful.util.spawn_with_shell("gnome-keyring-daemon --daemonize --login")
     awful.util.spawn_with_shell("mail-notification")
-    --awful.util.spawn_with_shell("terminator --classname=Hangups -e ~/.local/bin/hangups")
-    --awful.util.spawn_with_shell("sleep 1 && pidgin")
     awful.util.spawn_with_shell("sleep 1 && ~/.local/bin/touch")
     awful.util.spawn_with_shell("sleep 1 && ~/.local/bin/xback")
+    awful.util.spawn_with_shell("sleep 1 && pidgin")
+    awful.util.spawn_with_shell("sleep 1 && synergy")
+    --awful.util.spawn_with_shell("exaile")
+    --awful.util.spawn_with_shell("sleep 1 && alltray transmission-gtk")
+    --awful.util.spawn_with_shell("terminator --classname=Hangups -e ~/.local/bin/hangups")
+    --awful.util.spawn_with_shell("sleep 1 && ~/.local/bin/battt.sh")
     --awful.util.spawn_with_shell("sleep 1 && chromium-browser %U --force-device-scale-factor=1.5")
     --awful.util.spawn_with_shell("sleep 10 && terminator")
 end

@@ -343,16 +343,16 @@ end
 
 -- Using nvidia-settings on sysmem with optimus (bumblebee)
 ------------------------------------------------------------
---function system.thermal.nvoptimus()
---	local temp = 0
---	local nvidia_on = string.find(awful.util.pread("cat /proc/acpi/bbswitch"), "ON")
+function system.thermal.nvoptimus()
+	local temp = 0
+	local nvidia_on = string.find(awful.util.pread("cat /proc/acpi/bbswitch"), "ON")
 
---	if nvidia_on ~= nil then
---		temp = string.match(awful.util.pread("optirun -b none nvidia-settings -c :8 -q gpucoretemp -t"), "[^\n]+")
---	end
+	if nvidia_on ~= nil then
+		temp = string.match(awful.util.pread("optirun -b none nvidia-settings -c :8 -q gpucoretemp -t"), "[^\n]+")
+	end
 
---	return { tonumber(temp), off = nvidia_on == nil }
---end
+	return { tonumber(temp), off = nvidia_on == nil }
+end
 
 -- Get info from transmission-remote client
 -- This function adapted special for asyncshell

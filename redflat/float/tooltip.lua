@@ -94,7 +94,7 @@ function tooltip.new(objects, style)
 	end
 
 	function ttp.hide()
-		--show_timer:stop()
+		show_timer:stop()
 		if ttp.wibox.visible then ttp.wibox.visible = false end
 	end
 

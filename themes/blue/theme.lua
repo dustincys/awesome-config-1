@@ -7,7 +7,8 @@ local theme = {}
 -- Color scheme
 -----------------------------------------------------------------------------------------------------------------------
 theme.color = {
-	main      = "#e60400",
+--	main      = "#e60400",
+	main      = "#fc483b",
 	gray      = "#575757",
 	bg        = "#161616",
 	bg_second = "#181818",
@@ -169,18 +170,18 @@ theme.desktop.sline = {
 -- Widgets placement
 --------------------------------------------------------------------------------
 theme.desktop.grid = {
-	width  = { 400, 400, 400 },
+	width  = { 480, 480, 480 },
 	height = { 18, 180, 180, 180, 160, 130 },
 	edge   = { width = { 100, 100 }, height = { 200, 200 } }
 }
 
 theme.desktop.places = {
-	thermal  = { 3, 1 },
-	netspeed = { 3, 2 },
-	ssdspeed = { 3, 3 },
-	hddspeed = { 3, 4 },
-	cpumem   = { 3, 5 },
-	disks    = { 3, 6 }
+	thermal  = { 1, 1 },
+	netspeed = { 1, 2 },
+	ssdspeed = { 1, 3 },
+	hddspeed = { 1, 4 },
+	cpumem   = { 1, 5 },
+	disks    = { 1, 6 }
 --	transm   = { 1, 5 },
 }
 
