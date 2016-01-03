@@ -18,6 +18,10 @@ function rules:build(args)
 
     local user_rules = {
         {
+            rule = { class = "Tickr" },
+            properties = { border_width = 0, floating = true, sticky = true, ontop = true }
+        },
+        {
             rule = { class = "Pidgin" },
             properties = { tag = tags[1][2], floating = false, switchtotag = false }
         },
@@ -48,16 +52,16 @@ function rules:build(args)
         },
         {
             rule = { class = "Weechat" },
-            properties = { tag = tags[1][3], switchtotag = false }
+            properties = { tag = tags[1][5], switchtotag = false }
         },
         {
             rule = { class = "SSH" },
-            properties = { tag = tags[1][4], switchtotag = false }
+            properties = { tag = tags[1][5], switchtotag = false }
         },
         {
             rule = { class = "VirtualBox" },
             --except = { name = "Oracle VM VirtualBox Manager" },
-            properties = { tag = tags[1][5], switchtotag = false }
+            properties = { tag = tags[1][6], switchtotag = false }
         },
         {
             rule       = { class = "google-chrome" }, except = { role = "google-chrome" },
@@ -83,9 +87,21 @@ function rules:build(args)
                 awful.client.movetotag(tags[1][3], c)
                 c.minimized = false
             end
-        }
+        },
+        {
+            rule = { class = "Clementine" },
+            callback = function(c)
+                for _, exist in ipairs(awful.client.visible(c.screen)) do
+                    if c ~= exist and c.class == exist.class then
+                        awful.client.floating.set(c, true)
+                        return
+                    end
+                end
+                awful.client.movetotag(tags[1][3], c)
+                c.minimized = false
+            end
+        },
     }
-
     return user_rules
 end
 

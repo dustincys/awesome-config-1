@@ -75,8 +75,8 @@ local layouts = require("red.layout-config") -- load file with layouts configura
 -- Tags
 -----------------------------------------------------------------------------------------------------------------------
 local tags = {
-    names  = { "Main", "Mail", "Free", "Full", "Virt"},
-    layout = { layouts[7], layouts[7], layouts[2], layouts[8], layouts[8] },
+    names  = { "Main", "Mail", "Musi", "Free", "Full", "Virt"},
+    layout = { layouts[7], layouts[7], layouts[7], layouts[2], layouts[8], layouts[8] },
 }
 
 for s = 1, screen.count() do tags[s] = awful.tag(tags.names, s, tags.layout) end
@@ -488,7 +488,7 @@ if not stamp or (os.time() - tonumber(stamp)) > 5 then
     awful.util.spawn_with_shell("radiotray")
     --awful.util.spawn_with_shell("osdlyrics")
     awful.util.spawn_with_shell("unclutter -idle 3 -root")
-    awful.util.spawn_with_shell("xautolock -time 10 -locker ~/.local/bin/lock")
+    awful.util.spawn_with_shell("xautolock -time 10 -locker ~/.scripts/lock")
     --awful.util.spawn_with_shell("fdpowermon")
     --awful.util.spawn_with_shell("pulseaudio")
     --awful.util.spawn_with_shell("gnome-session --session=ubuntu")
@@ -500,17 +500,18 @@ if not stamp or (os.time() - tonumber(stamp)) > 5 then
     --awful.util.spawn_with_shell("kbdd")
 
     -- apps
-    awful.util.spawn_with_shell("/opt/copy-client/CopyAgent")
+    awful.util.spawn_with_shell("/opt/copy/x86_64/CopyAgent")
     awful.util.spawn_with_shell("/usr/bin/dropbox")
     awful.util.spawn_with_shell("rofi -key-run F12")
     awful.util.spawn_with_shell("goldendict")
     awful.util.spawn_with_shell("redshift-gtk")
     awful.util.spawn_with_shell("gnome-keyring-daemon --daemonize --login")
     awful.util.spawn_with_shell("mail-notification")
-    awful.util.spawn_with_shell("sleep 1 && ~/.local/bin/touch")
-    awful.util.spawn_with_shell("sleep 1 && ~/.local/bin/xback")
+    awful.util.spawn_with_shell("sleep 1 && ~/.scripts/touchpad")
+    awful.util.spawn_with_shell("sleep 1 && ~/.scripts/xback")
     awful.util.spawn_with_shell("sleep 1 && pidgin")
-    awful.util.spawn_with_shell("sleep 1 && synergy")
+    --awful.util.spawn_with_shell("sleep 3 && tickr")
+    --awful.util.spawn_with_shell("sleep 1 && synergy")
     --awful.util.spawn_with_shell("exaile")
     --awful.util.spawn_with_shell("sleep 1 && alltray transmission-gtk")
     --awful.util.spawn_with_shell("terminator --classname=Hangups -e ~/.local/bin/hangups")

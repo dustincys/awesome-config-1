@@ -116,31 +116,35 @@ function hotkeys:init(args)
     self.browser = args.browser or "google-chrome %U --force-device-scale-factor=1.5"
     --self.browser = args.browser or "chromium-browser %U --force-device-scale-factor=1.5"
     self.calendar = args.calendar or "xterm -class Calcurse -e calcurse"
+    self.clementine = args.clementine or "clementine"
     --self.cmus = args.mpd or "xterm -class Cmus -e cmus"
     self.firefox = args.firefox or "firefox"
-    self.fm = args.fm or "xterm -e ranger"
+    self.fm = args.fm or "/bin/sh -c ${HOME}/.scripts/rangerr"
+    --self.fm = args.fm or "xterm -e ranger"
     self.glock = args.glock or "gnome-screensaver-command --lock"
     self.keepassx = args.keepassx or "keepassx"
-    self.hangups = args.hangups or "terminator --classname=Hangups -e '~/.local/bin/hangups --col-scheme solarized-dark'"
-    self.lock = args.lock or "/bin/sh -c ~/.local/bin/lock"
-    self.mail = args.mail or "/bin/sh -c ${HOME}/.local/bin/muttt.sh"
+    self.hangups = args.hangups or "terminator --classname=Hangups -e '${HOME}/.local/bin/hangups --col-scheme solarized-dark'"
+    self.lock = args.lock or "/bin/sh -c ${HOME}/.scripts/lock"
+    self.mail = args.mail or "/bin/sh -c ${HOME}/.scripts/muttt.sh"
     --self.mail = args.mail or "xterm -class Mutt -e ~/.local/bin/mut"
     self.mod = args.mod or "Mod4"
     self.mpd = args.mpd or "xterm -class MPD -e ncmpcpp"
     self.mpv = args.mpv or "mpv --profile=pseudo-gui"
     self.newsbeuter = args.newsbeuter or "xterm -e newsbeuter"
     self.nau = args.nau or "nautilus"
-    self.off = args.off or "/bin/sh -c ~/.local/bin/off"
+    self.off = args.off or "/bin/sh -c ${HOME}/.scripts/off"
     self.profanity = args.profanity or "terminator --classname=Profanity -e profanity"
-    self.reboot = args.reboot or "/bin/sh -c ~/.local/bin/boot"
-    self.scrot = args.scrot or "/bin/sh -c ~/.local/bin/screenshot"
+    self.reboot = args.reboot or "/bin/sh -c ${HOME}/.scripts/boot"
+    self.rs = args.rs or "tickr"
+    self.scrot = args.scrot or "/bin/sh -c ${HOME}/.scripts/screenshot"
     self.smplayer = args.smp or "smplayer"
     self.ss = args.ss or "terminator --classname=SSH"
-    self.suspend = args.suspend or "/bin/sh -c ~/.local/bin/mysuspend"
+    self.suspend = args.suspend or "/bin/sh -c ${HOME}/.scripts/mysuspend"
     self.terminal = args.terminal or "x-terminal-emulator"
     self.virtualbox = args.virtualbox or "virtualbox"
-    self.weechat = args.weechat or "xterm -class Weechat -e weechat"
-    self.windows = args.windows or "/bin/sh -c ~/.local/bin/wm"
+    self.weechat = args.weechat or "/bin/sh-c ${HOME}/.scripts/weechatt"
+    --self.weechat = args.weechat or "xterm -class Weechat -e weechat"
+    self.windows = args.windows or "/bin/sh -c ${HOME}/.scripts/wm"
     self.xterm = args.xterm or "xterm"
     self.need_helper = args.need_helper or true
 
@@ -214,6 +218,14 @@ function hotkeys:init(args)
             comment = "Smplayer"
         },
         {
+            args = { {              "Mod5" }, "i", function () awful.util.spawn(self.clementine) end },
+            comment = "Clementine"
+        },
+        {
+            args = { {              "Mod5" }, "r", function () awful.util.spawn(self.rs) end },
+            comment = "Tickr"
+        },
+        {
             args = { {              "Mod5" }, "m", function () awful.util.spawn(self.mail) end },
             comment = "Mutt"
         },
@@ -246,11 +258,11 @@ function hotkeys:init(args)
             comment = "Hangups"
         },
         {
-            args = { {              "Mod1" }, "ç", function () awful.util.spawn(self.virtualbox) end },
+            args = { {              "Mod1" }, "z", function () awful.util.spawn(self.virtualbox) end },
             comment = "VirtualBox"
         },
         {
-            args = { {              "Mod1" }, "c", function () awful.util.spawn(self.windows) end },
+            args = { {              "Mod1" }, "s", function () awful.util.spawn(self.windows) end },
             comment = "Windows VM"
         },
         {
